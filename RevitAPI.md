@@ -18,6 +18,8 @@ Revit API Forum [Link](https://forums.autodesk.com/t5/revit-api-forum/bd-p/160)
 
 AEC DevBlog [Link](https://adndevblog.typepad.com/aec/) Revit, Navis and other BIM
 
+Autodesk University [Link](https://www.autodesk.com/autodesk-university/au-online?query=revit+api)
+
 #### Research Revit Addins. Try and look at how they are built. Cowi tools. 
 
 Look at good tools that have been built. 
