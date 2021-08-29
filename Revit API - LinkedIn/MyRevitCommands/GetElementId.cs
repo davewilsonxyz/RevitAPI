@@ -20,16 +20,34 @@ namespace MyRevitCommands
             UIDocument uidoc = commandData.Application.ActiveUIDocument;
 
 
+            //Get document(Added 2.1)
+            Document doc = uidoc.Document;
+
+
+
             try
             {
                 //Pick object
                 Reference pickedObj = uidoc.Selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Element);
 
+                //Retrieve Element (Added 2.1)
+                ElementId eleId = pickedObj.ElementId;
+                Element ele = doc.GetElement(eleId);
+
+                //Get element type (Added 2.2)
+                ElementId eTypeId = ele.GetTypeId();
+                ElementType eType = doc.GetElement(eTypeId) as ElementType;
+
 
                 //Display element Id
                 if (pickedObj != null)
                 {
-                    TaskDialog.Show("Element Id", pickedObj.ElementId.ToString());
+                    //Show information (amended 2.2)
+                    TaskDialog.Show("Element classification", eleId.ToString() + Environment.NewLine
+                        + "Category: " + ele.Category.Name + Environment.NewLine
+                        + "Instance: " + ele.Name + Environment.NewLine
+                        + "Symbol: " + eType.Name + Environment.NewLine
+                        + "Family: " + eType.FamilyName);
                 }
 
                 //Either return succeeded, cancelled or failed
