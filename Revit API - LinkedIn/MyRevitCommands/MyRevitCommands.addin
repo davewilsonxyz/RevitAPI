@@ -11,4 +11,59 @@
 		<VendorDescription>ComputationalDesigner</VendorDescription>
 		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
 	</AddIn>
+	<AddIn Type="Command">
+		<Name>MyRevitCommands</Name>
+		<Assembly>MyRevitCommands.dll</Assembly>
+		<AddInId>E15ABE67-C877-4E2C-B20B-CB1F8ACDCE21</AddInId>
+		<FullClassName>MyRevitCommands.CollectWindows</FullClassName>
+		<Text>CollectWindows</Text>
+		<Description>Collect windows from a document</Description>
+		<VendorId>DaveWilsonxyz</VendorId>
+		<VendorDescription>ComputationalDesigner</VendorDescription>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+	</AddIn>
+	<AddIn Type="Command">
+		<Name>MyRevitCommands</Name>
+		<Assembly>MyRevitCommands.dll</Assembly>
+		<AddInId>44A77598-2FF9-4A6E-9E6B-CCA6C4C82F6F</AddInId>
+		<FullClassName>MyRevitCommands.DeleteElement</FullClassName>
+		<Text>DeleteElement</Text>
+		<Description>Deletes a element from the document</Description>
+		<VendorId>DaveWilsonxyz</VendorId>
+		<VendorDescription>ComputationalDesigner</VendorDescription>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+	</AddIn>
+	<AddIn Type="Command">
+		<Name>MyRevitCommands</Name>
+		<Assembly>MyRevitCommands.dll</Assembly>
+		<AddInId>052A2D10-C321-4F4A-A180-47AF224644EE</AddInId>
+		<FullClassName>MyRevitCommands.PlaceFamily</FullClassName>
+		<Text>PlaceFamily</Text>
+		<Description>Places a family in the document</Description>
+		<VendorId>DaveWilsonxyz</VendorId>
+		<VendorDescription>ComputationalDesigner</VendorDescription>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+	</AddIn>
+	<AddIn Type="Command">
+		<Name>MyRevitCommands</Name>
+		<Assembly>MyRevitCommands.dll</Assembly>
+		<AddInId>64785DA4-881A-4924-B855-395DF06719AE</AddInId>
+		<FullClassName>MyRevitCommands.PlaceFamilyImproved</FullClassName>
+		<Text>PlaceFamilyImproved</Text>
+		<Description>Places a family in the document</Description>
+		<VendorId>DaveWilsonxyz</VendorId>
+		<VendorDescription>ComputationalDesigner</VendorDescription>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+	</AddIn>
+	<AddIn Type="Command">
+		<Name>MyRevitCommands</Name>
+		<Assembly>MyRevitCommands.dll</Assembly>
+		<AddInId>8F0636A5-3151-4126-B770-C1C871FB0214</AddInId>
+		<FullClassName>MyRevitCommands.PlaceLineElement</FullClassName>
+		<Text>PlaceLineElement</Text>
+		<Description>Places a line based family in the document</Description>
+		<VendorId>DaveWilsonxyz</VendorId>
+		<VendorDescription>ComputationalDesigner</VendorDescription>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+	</AddIn>
 </RevitAddIns>
