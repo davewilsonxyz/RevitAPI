@@ -25,9 +25,10 @@ Autodesk University [Link](https://www.autodesk.com/autodesk-university/au-onlin
 Look at good tools that have been built. 
 
 DiRoots
+
 RTV tools
-Others?
-Make a list
+
+API Research [Link](https://www.evernote.com/shard/s123/sh/dd087e89-4be7-4bba-0c4a-2539abb7cae7/c1bd9af2e2d66e1975511a7649b6e219)
 
 #### Useful articles 
 
