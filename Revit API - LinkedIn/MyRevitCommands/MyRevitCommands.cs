@@ -316,4 +316,164 @@ namespace MyRevitCommands
 
         }
     }
+
+    //Added 2.10
+    [TransactionAttribute(TransactionMode.Manual)]
+    public class PlaceLoopElement : IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //Get UIDocument
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+
+            //Get Document
+            Document doc = uidoc.Document;
+
+            //Create Points 
+            XYZ p1 = new XYZ(-10, -10, 0);
+            XYZ p2 = new XYZ(10, -10, 0);
+            XYZ p3 = new XYZ(15, 0, 0);
+            XYZ p4 = new XYZ(10, 10, 0);
+            XYZ p5 = new XYZ(-10, 10, 0);
+
+            //Create Curves
+            List<Curve> curves = new List<Curve>();
+            Line l1 = Line.CreateBound(p1, p2);
+            Arc l2 = Arc.Create(p2, p4, p3);
+            Line l3 = Line.CreateBound(p4, p5);
+            Line l4 = Line.CreateBound(p5, p1);
+
+            curves.Add(l1);
+            curves.Add(l2);
+            curves.Add(l3);
+            curves.Add(l4);
+
+            //Create curve loop
+            CurveLoop crvloop = CurveLoop.Create(curves);
+            double offset = UnitUtils.ConvertToInternalUnits(135, DisplayUnitType.DUT_MILLIMETERS);
+            CurveLoop offsetcrv = CurveLoop.CreateViaOffset(crvloop, offset, new XYZ(0, 0, 1));
+            CurveArray cArray = new CurveArray();
+            foreach (Curve c in offsetcrv)
+            {
+                cArray.Append(c);
+            }
+
+            try
+            {
+                using (Transaction trans = new Transaction(doc, "Place Family"))
+                {
+                    trans.Start();
+                    doc.Create.NewFloor(cArray, false);
+                    trans.Commit();
+                }
+
+                return Result.Succeeded;
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                return Result.Failed;
+            }
+        }
+    }
+
+    //Added 2.11
+    [TransactionAttribute(TransactionMode.ReadOnly)]
+    public class GetParameter : IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //Get UIDocument and Document
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+            Document doc = uidoc.Document;
+
+            try
+            {
+                //Pick Object
+                Reference pickedObj = uidoc.Selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Element);
+
+                if (pickedObj != null)
+                {
+                    //Retrieve Element
+                    ElementId eleId = pickedObj.ElementId;
+                    Element ele = doc.GetElement(eleId);
+
+                    
+
+                    //Get parameter _ External parameters are ones that are saved in a shared parameter file. 
+                    Parameter param = ele.LookupParameter("Head Height");
+                    InternalDefinition paramDef = param.Definition as InternalDefinition;
+
+                    TaskDialog.Show("Parameters", string.Format("{0} parameter of type {1} with biltinparameter {2}",
+                        paramDef.Name,
+                        paramDef.UnitType,
+                        paramDef.BuiltInParameter));
+
+                }
+
+                return Result.Succeeded;
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                return Result.Failed;
+            }
+
+        }
+    }
+
+    //Added 2.12
+    [TransactionAttribute(TransactionMode.Manual)]
+    public class SetParameter : IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //Get UIDocument and Document
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+            Document doc = uidoc.Document;
+
+            try
+            {
+                //Pick Object
+                Reference pickedObj = uidoc.Selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Element);
+
+                if (pickedObj != null)
+                {
+                    //Retrieve Element
+                    ElementId eleId = pickedObj.ElementId;
+                    Element ele = doc.GetElement(eleId);
+
+                    //Get Parameter Value
+                    Parameter param = ele.get_Parameter(BuiltInParameter.INSTANCE_HEAD_HEIGHT_PARAM);
+
+                    TaskDialog.Show("Parameter values", string.Format("Parameter storage type {0} and value {1}",
+                        param.StorageType.ToString(),
+                        param.AsDouble()));
+
+                    //Set Parameter Value
+                    using (Transaction trans = new Transaction(doc, "Set Parameter"))
+                    {
+                        trans.Start();
+
+                        //This updates the element in Revit
+                        param.Set(7.5);
+
+                        trans.Commit();
+                    }
+
+                }
+
+                return Result.Succeeded;
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                return Result.Failed;
+            }
+
+        }
+    }
+
+
+
 }
