@@ -35,7 +35,13 @@ API Research [Link](https://www.evernote.com/shard/s123/sh/dd087e89-4be7-4bba-0c
 Unifi Labs [Link](https://unifilabs.com/revit-api)
 
 #### Addin ideas 
-Parameter checker. Identify missing parameters in the file and add them? Might be complicated with the type etc
+What are the solutions to the problems around data on HS2
+
+Parameter checker. Identify missing parameters in the file and add them? Might be complicated with the type etc. Host the parameter file on git and have the check against that. 
 
 MDC tool but in a addin. Need to have all of the parameters finalised but could maybe do this as a text file. 
+
+MPDT fully online. 
+
+
 
