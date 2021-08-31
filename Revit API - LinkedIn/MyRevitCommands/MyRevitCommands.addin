@@ -69,7 +69,7 @@
 	<AddIn Type="Command">
 		<Name>MyRevitCommands</Name>
 		<Assembly>MyRevitCommands.dll</Assembly>
-		<AddInId>05B8EDED-99D8-4045-A38D-27986D8E3209</AddInId>
+		<AddInId>05B8EDED-99D8-4045-A38D-27986D8E3288</AddInId>
 		<FullClassName>MyRevitCommands.PlaceLoopElement</FullClassName>
 		<Text>PlaceLoopElement</Text>
 		<Description>Places a floor in the document</Description>
@@ -84,6 +84,17 @@
 		<FullClassName>MyRevitCommands.GetParameter</FullClassName>
 		<Text>GetParameter</Text>
 		<Description>Gets parameters in the document</Description>
+		<VendorId>DaveWilsonxyz</VendorId>
+		<VendorDescription>ComputationalDesigner</VendorDescription>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+	</AddIn>
+	<AddIn Type="Command">
+		<Name>MyRevitCommands</Name>
+		<Assembly>MyRevitCommands.dll</Assembly>
+		<AddInId>05B8EDED-99D8-4045-A38D-27986D8E3209</AddInId>
+		<FullClassName>MyRevitCommands.ChangeLocation</FullClassName>
+		<Text>ChangeLocation</Text>
+		<Description>Changes the location of an element in the document</Description>
 		<VendorId>DaveWilsonxyz</VendorId>
 		<VendorDescription>ComputationalDesigner</VendorDescription>
 		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
