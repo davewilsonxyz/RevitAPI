@@ -1,3 +1,5 @@
+Just some notes while I'm learning the Revit API. 
+
 #### Revit API Resources 
 
 The Building Coder [Link](https://thebuildingcoder.typepad.com/)
@@ -25,15 +27,27 @@ Autodesk University [Link](https://www.autodesk.com/autodesk-university/au-onlin
 Look at good tools that have been built. 
 
 DiRoots
+
 RTV tools
-Others?
+
+API Research [Link](https://www.evernote.com/shard/s123/sh/dd087e89-4be7-4bba-0c4a-2539abb7cae7/c1bd9af2e2d66e1975511a7649b6e219)
 
 #### Useful articles 
 
 Unifi Labs [Link](https://unifilabs.com/revit-api)
 
 #### Addin ideas 
-Parameter checker. Identify missing parameters in the file and add them? Might be complicated with the type etc
+What are the solutions to the problems around data on HS2
 
-MDC tool but in a addin. Need to have all of the parameters finalised but could maybe do this as a text file. 
+Parameter checker. Identify missing parameters in the file and add them? Might be complicated with the type etc. Host the parameter file on github and have the check against that. Allows for constant updates. Also make use the end user is in control of what is happening. 
+
+MPDT fully online. Allows for changes to the data requirements in one place. MPDT fully documented with the parameters that its missing. 
+
+MDC tool but in the online MPDT or maybe one for Revit. Should be easy with the checking file. Need to have all of the parameters finalised but could maybe do this using existing text files. 
+
+
+
+
+
+
 
