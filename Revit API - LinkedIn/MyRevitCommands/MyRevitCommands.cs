@@ -498,12 +498,22 @@ namespace MyRevitCommands
 
                     using (Transaction trans = new Transaction(doc, "Change Location"))
                     {
-                        trans.Start();
+                        
 
                         //Set Location
+                        LocationPoint locp = ele.Location as LocationPoint;
+
+                        if(locp != null)
+                        {
+                            trans.Start();
+                            XYZ loc = locp.Point;
+                            XYZ newloc = new XYZ(loc.X +3, loc.Y, loc.Z);
+                            locp.Point = newloc;
+                            trans.Commit();
+                        }
 
 
-                        trans.Commit();
+                        
                     }
                 }
 
@@ -518,6 +528,235 @@ namespace MyRevitCommands
         }
     }
 
+    //Added 3.2
+    [TransactionAttribute(TransactionMode.Manual)]
+    public class EditElement : IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //Get UIDocument and Document
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+            Document doc = uidoc.Document;
+
+            try
+            {
+                //Pick Object
+                Reference pickedObj = uidoc.Selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Element);
+
+                //Display Element Id
+                if (pickedObj != null)
+                {
+                    //Retrieve Element
+                    ElementId eleId = pickedObj.ElementId;
+                    Element ele = doc.GetElement(eleId);
+
+                    using (Transaction trans = new Transaction(doc, "Edit Elements"))
+                    {
+                        trans.Start();
+
+                        //Move Element
+                        XYZ moveVec = new XYZ(3, 3, 0);
+                        ElementTransformUtils.MoveElement(doc, eleId, moveVec);
+                       
+                        //Rotate Element
+                        LocationPoint location = ele.Location as LocationPoint;
+                        XYZ p1 = location.Point;
+                        XYZ p2 = new XYZ(p1.X, p1.Y, p1.Z + 10);
+                        Line axis = Line.CreateBound(p1, p2);
+                        double angle = 30 * (Math.PI/180);
+                        ElementTransformUtils.RotateElement(doc, eleId,axis,angle);
+
+                        trans.Commit();
+                    }
+                }
+                return Result.Succeeded;
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                return Result.Failed;
+            }
+        }
+    }
+
+    //Added 3.4
+    [TransactionAttribute(TransactionMode.ReadOnly)]
+    public class SelectGeometry : IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //Get UIDocument and Document
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+            Document doc = uidoc.Document;
+
+            try
+            {
+                //Pick Object
+                Reference pickedObj = uidoc.Selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Element);
+
+                if (pickedObj != null)
+                {
+                    //Retrieve Element
+                    ElementId eleId = pickedObj.ElementId;
+                    Element ele = doc.GetElement(eleId);
+
+                    //Get Geometry
+                    Options gOptions = new Options();
+                    gOptions.DetailLevel = ViewDetailLevel.Fine;
+                    GeometryElement geom = ele.get_Geometry(gOptions);
+
+                    //Traverse Geometry
+                    foreach (GeometryObject gObj in geom)
+                    {
+                        Solid gSolid = gObj as Solid;
+
+                        int faces = 0; 
+                        double area = 0.0;
+
+                        foreach (Face gFace in gSolid.Faces)
+                        {
+                            area += gFace.Area;
+                            faces++;
+                        }
+
+                        area = UnitUtils.ConvertFromInternalUnits(area, DisplayUnitType.DUT_SQUARE_METERS);
+                        TaskDialog.Show("Geometry", String.Format("Number of faces {0}" + Environment.NewLine + "Total area {1}", faces, area));
+
+                    }
 
 
+                }
+
+                return Result.Succeeded;
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                return Result.Failed;
+            }
+
+        }
+    }
+
+    //Added 3.5
+    [TransactionAttribute(TransactionMode.ReadOnly)]
+    public class ElementIntersection : IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //Get UIDocument and Document
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+            Document doc = uidoc.Document;
+
+            try
+            {
+                //Pick Object
+                Reference pickedObj = uidoc.Selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Element);
+
+                if (pickedObj != null)
+                {
+                    //Retrieve Element
+                    ElementId eleId = pickedObj.ElementId;
+                    Element ele = doc.GetElement(eleId);
+
+                    //Get Geometry
+                    Options gOptions = new Options();
+                    gOptions.DetailLevel = ViewDetailLevel.Fine;
+                    GeometryElement geom = ele.get_Geometry(gOptions);
+
+                    Solid gSolid = null;
+
+                    //Traverse Geometry
+                    foreach (GeometryObject gObj in geom)
+                    {
+
+                        GeometryInstance gInst = gObj as GeometryInstance;
+
+                        if(gInst != null)
+                        {
+                            GeometryElement gEle = gInst.GetInstanceGeometry();
+                            foreach (GeometryObject gO in gEle)
+                            {
+                                gSolid = gO as Solid;
+                            }
+
+                        }
+
+
+                    }
+
+                    //Filter for Intersection
+                    FilteredElementCollector collector = new FilteredElementCollector(doc);
+                    ElementIntersectsSolidFilter filter = new ElementIntersectsSolidFilter(gSolid);
+                    ICollection<ElementId> intersects =  collector.OfCategory(BuiltInCategory.OST_Roofs).WherePasses(filter).ToElementIds();
+
+                    uidoc.Selection.SetElementIds(intersects);
+
+                }
+
+                return Result.Succeeded;
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                return Result.Failed;
+            }
+
+        }
+    }
+
+
+    //Added 3.6 
+    [TransactionAttribute(TransactionMode.ReadOnly)]
+    public class ProjectRay : IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //Get UIDocument and Document
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+            Document doc = uidoc.Document;
+
+            try
+            {
+                //Pick Object
+                Reference pickedObj = uidoc.Selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Element);
+
+                if (pickedObj != null)
+                {
+                    //Retrieve Element
+                    ElementId eleId = pickedObj.ElementId;
+                    Element ele = doc.GetElement(eleId);
+
+                    //Project Ray
+                    LocationPoint locP = ele.Location as LocationPoint;
+                    XYZ p1 = locP.Point;
+
+                    //Ray
+                    XYZ rayd = new XYZ(0, 0, 1);
+
+                    ElementCategoryFilter filter = new ElementCategoryFilter(BuiltInCategory.OST_Roofs);
+                    ReferenceIntersector refI = new ReferenceIntersector(filter, FindReferenceTarget.Face, (View3D)doc.ActiveView);
+                    ReferenceWithContext refC = refI.FindNearest(p1, rayd);
+                    Reference reference = refC.GetReference();
+                    XYZ intPoint = reference.GlobalPoint;
+                    double dist = p1.DistanceTo(intPoint);
+
+                    TaskDialog.Show("Ray", string.Format("Distance to roof {0}", dist));
+
+
+
+
+
+                }
+
+                return Result.Succeeded;
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                return Result.Failed;
+            }
+
+        }
+    }
 }

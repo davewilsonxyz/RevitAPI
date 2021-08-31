@@ -91,10 +91,65 @@
 	<AddIn Type="Command">
 		<Name>MyRevitCommands</Name>
 		<Assembly>MyRevitCommands.dll</Assembly>
-		<AddInId>05B8EDED-99D8-4045-A38D-27986D8E3209</AddInId>
+		<AddInId>0CC0AF77-04A9-47F7-A3A5-5EFBA9AFD60B</AddInId>
+		<FullClassName>MyRevitCommands.SetParameter</FullClassName>
+		<Text>SetParameter</Text>
+		<Description>Sets a parameters in the document</Description>
+		<VendorId>DaveWilsonxyz</VendorId>
+		<VendorDescription>ComputationalDesigner</VendorDescription>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+	</AddIn>
+	<AddIn Type="Command">
+		<Name>MyRevitCommands</Name>
+		<Assembly>MyRevitCommands.dll</Assembly>
+		<AddInId>9D86DA24-5584-4E3B-B4DF-8637590E5767</AddInId>
 		<FullClassName>MyRevitCommands.ChangeLocation</FullClassName>
 		<Text>ChangeLocation</Text>
 		<Description>Changes the location of an element in the document</Description>
+		<VendorId>DaveWilsonxyz</VendorId>
+		<VendorDescription>ComputationalDesigner</VendorDescription>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+	</AddIn>
+	<AddIn Type="Command">
+		<Name>MyRevitCommands</Name>
+		<Assembly>MyRevitCommands.dll</Assembly>
+		<AddInId>EDE67160-DE03-493A-BB98-1FDE7DEA2A20</AddInId>
+		<FullClassName>MyRevitCommands.EditElement</FullClassName>
+		<Text>EditElement</Text>
+		<Description>Moves and rotates an element in the document</Description>
+		<VendorId>DaveWilsonxyz</VendorId>
+		<VendorDescription>ComputationalDesigner</VendorDescription>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+	</AddIn>
+	<AddIn Type="Command">
+		<Name>MyRevitCommands</Name>
+		<Assembly>MyRevitCommands.dll</Assembly>
+		<AddInId>87F14A16-A6AC-4D58-84F6-A5F23FFF3551</AddInId>
+		<FullClassName>MyRevitCommands.SelectGeometry</FullClassName>
+		<Text>SelectGeometry</Text>
+		<Description>Selects a wall and calculates the area of its surfaces</Description>
+		<VendorId>DaveWilsonxyz</VendorId>
+		<VendorDescription>ComputationalDesigner</VendorDescription>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+	</AddIn>
+	<AddIn Type="Command">
+		<Name>MyRevitCommands</Name>
+		<Assembly>MyRevitCommands.dll</Assembly>
+		<AddInId>B4123371-7A37-4934-9F0A-A8B5588014C6</AddInId>
+		<FullClassName>MyRevitCommands.ElementIntersections</FullClassName>
+		<Text>ElementIntersections</Text>
+		<Description>Selects a wall and calculates the area of its surfaces</Description>
+		<VendorId>DaveWilsonxyz</VendorId>
+		<VendorDescription>ComputationalDesigner</VendorDescription>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+	</AddIn>
+	<AddIn Type="Command">
+		<Name>MyRevitCommands</Name>
+		<Assembly>MyRevitCommands.dll</Assembly>
+		<AddInId>AE2941DE-DC13-4B88-8F19-103A2DA2B3E3</AddInId>
+		<FullClassName>MyRevitCommands.ProjectRay</FullClassName>
+		<Text>ProjectRay</Text>
+		<Description>Projects a ray and finds the object it intersects</Description>
 		<VendorId>DaveWilsonxyz</VendorId>
 		<VendorDescription>ComputationalDesigner</VendorDescription>
 		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
