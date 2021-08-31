@@ -37,11 +37,15 @@ Unifi Labs [Link](https://unifilabs.com/revit-api)
 #### Addin ideas 
 What are the solutions to the problems around data on HS2
 
-Parameter checker. Identify missing parameters in the file and add them? Might be complicated with the type etc. Host the parameter file on git and have the check against that. 
+Parameter checker. Identify missing parameters in the file and add them? Might be complicated with the type etc. Host the parameter file on github and have the check against that. Allows for constant updates. Also make use the end user is in control of what is happening. 
 
-MDC tool but in a addin. Need to have all of the parameters finalised but could maybe do this as a text file. 
+MPDT fully online. Allows for changes to the data requirements in one place. MPDT fully documented with the parameters that its missing. 
 
-MPDT fully online. 
+MDC tool but in the online MPDT or maybe one for Revit. Should be easy with the checking file. Need to have all of the parameters finalised but could maybe do this using existing text files. 
+
+
+
+
 
 
 
