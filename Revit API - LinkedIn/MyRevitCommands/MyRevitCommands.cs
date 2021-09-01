@@ -911,4 +911,100 @@ namespace MyRevitCommands
     }
 
     //Added 4.4
+    [TransactionAttribute(TransactionMode.Manual)]
+    public class Sheets : IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //Get UIDocument
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+
+            //Get Document
+            Document doc = uidoc.Document;
+
+            //Get Family Symbol
+            FamilySymbol tBlock = new FilteredElementCollector(doc)
+                .OfCategory(BuiltInCategory.OST_TitleBlocks)
+                .WhereElementIsElementType()
+                .Cast<FamilySymbol>()
+                .First();
+
+            try
+            {
+                using (Transaction trans = new Transaction(doc, "Create Sheet"))
+                {
+                    trans.Start();
+
+                    //Create Sheet
+                    ViewSheet vSheet = ViewSheet.Create(doc, tBlock.Id);
+                    vSheet.Name = "My First Sheet";
+                    vSheet.SheetNumber = "J101";
+
+                    trans.Commit();
+                }
+
+                return Result.Succeeded;
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                return Result.Failed;
+            }
+
+        }
+    }
+
+
+    //Added 4.5 
+    [TransactionAttribute(TransactionMode.Manual)]
+    public class PlaceView : IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //Get UIDocument
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+
+            //Get Document
+            Document doc = uidoc.Document;
+
+            //Find Sheet
+            ViewSheet vSheet = new FilteredElementCollector(doc)
+                .OfCategory(BuiltInCategory.OST_Sheets)
+                .Cast<ViewSheet>()
+                .First(x => x.Name == "My First Sheet");
+
+            //Find View
+            Element vPlan = new FilteredElementCollector(doc)
+                .OfCategory(BuiltInCategory.OST_Views)
+                .First(x => x.Name == "Our first plan!");
+
+            //Get Midpoint
+            BoundingBoxUV outline = vSheet.Outline;
+            double xu = (outline.Max.U + outline.Min.U) / 2;
+            double yu = (outline.Max.V + outline.Min.V) / 2;
+            XYZ midPoint = new XYZ(xu, yu, 0);
+
+
+            try
+            {
+                using (Transaction trans = new Transaction(doc, "Place View"))
+                {
+                    trans.Start();
+
+                    //Place View
+                    Viewport vPort = Viewport.Create(doc, vSheet.Id, vPlan.Id, midPoint);
+
+                    trans.Commit();
+                }
+
+                return Result.Succeeded;
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                return Result.Failed;
+            }
+
+        }
+    }
 }

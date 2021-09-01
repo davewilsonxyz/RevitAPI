@@ -193,7 +193,18 @@
 		<AddInId>BB46D4C0-4293-482D-80CC-FA460DC00966</AddInId>
 		<FullClassName>MyRevitCommands.Sheets</FullClassName>
 		<Text>Sheets</Text>
-		<Description>Tags elements in a view</Description>
+		<Description>Creates a sheet in the document</Description>
+		<VendorId>DaveWilsonxyz</VendorId>
+		<VendorDescription>ComputationalDesigner</VendorDescription>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+	</AddIn>
+	<AddIn Type="Command">
+		<Name>MyRevitCommands</Name>
+		<Assembly>MyRevitCommands.dll</Assembly>
+		<AddInId>9EE0C297-9DBA-483E-8B82-ABE4CB43C881</AddInId>
+		<FullClassName>MyRevitCommands.PlaceView</FullClassName>
+		<Text>PlaceView</Text>
+		<Description>Places a view on a sheet</Description>
 		<VendorId>DaveWilsonxyz</VendorId>
 		<VendorDescription>ComputationalDesigner</VendorDescription>
 		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
