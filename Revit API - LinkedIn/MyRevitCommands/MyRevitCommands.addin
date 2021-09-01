@@ -154,4 +154,48 @@
 		<VendorDescription>ComputationalDesigner</VendorDescription>
 		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
 	</AddIn>
+	<AddIn Type="Command">
+		<Name>MyRevitCommands</Name>
+		<Assembly>MyRevitCommands.dll</Assembly>
+		<AddInId>310BE4F6-9065-4E86-B2E0-685EFE4599C7</AddInId>
+		<FullClassName>MyRevitCommands.PlanView</FullClassName>
+		<Text>PlanView</Text>
+		<Description>Places a plan view in the document</Description>
+		<VendorId>DaveWilsonxyz</VendorId>
+		<VendorDescription>ComputationalDesigner</VendorDescription>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+	</AddIn>
+	<AddIn Type="Command">
+		<Name>MyRevitCommands</Name>
+		<Assembly>MyRevitCommands.dll</Assembly>
+		<AddInId>3E4B4C89-2C95-423E-9E80-52764D5EC51A</AddInId>
+		<FullClassName>MyRevitCommands.ViewFilter</FullClassName>
+		<Text>ViewFilter</Text>
+		<Description>Adds a filter to a view</Description>
+		<VendorId>DaveWilsonxyz</VendorId>
+		<VendorDescription>ComputationalDesigner</VendorDescription>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+	</AddIn>
+	<AddIn Type="Command">
+		<Name>MyRevitCommands</Name>
+		<Assembly>MyRevitCommands.dll</Assembly>
+		<AddInId>BB46D4C0-4293-482D-80CC-FA460DC00966</AddInId>
+		<FullClassName>MyRevitCommands.TagView</FullClassName>
+		<Text>TagView</Text>
+		<Description>Tags elements in a view</Description>
+		<VendorId>DaveWilsonxyz</VendorId>
+		<VendorDescription>ComputationalDesigner</VendorDescription>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+	</AddIn>
+	<AddIn Type="Command">
+		<Name>MyRevitCommands</Name>
+		<Assembly>MyRevitCommands.dll</Assembly>
+		<AddInId>BB46D4C0-4293-482D-80CC-FA460DC00966</AddInId>
+		<FullClassName>MyRevitCommands.Sheets</FullClassName>
+		<Text>Sheets</Text>
+		<Description>Tags elements in a view</Description>
+		<VendorId>DaveWilsonxyz</VendorId>
+		<VendorDescription>ComputationalDesigner</VendorDescription>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+	</AddIn>
 </RevitAddIns>

@@ -759,4 +759,156 @@ namespace MyRevitCommands
 
         }
     }
+
+    //Added 4.1
+    [TransactionAttribute(TransactionMode.Manual)]
+    public class PlanView : IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //Get UIDocument
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+
+            //Get Document
+            Document doc = uidoc.Document;
+
+            //Get Family Symbol
+            ViewFamilyType viewFamily = new FilteredElementCollector(doc)
+                .OfClass(typeof(ViewFamilyType))
+                .Cast<ViewFamilyType>()
+                .First(x => x.ViewFamily == ViewFamily.FloorPlan);
+            
+            //Get Level
+            Level level = new FilteredElementCollector(doc)
+                .OfCategory(BuiltInCategory.OST_Levels)
+                .WhereElementIsNotElementType()
+                .Cast<Level>()
+                .First(x => x.Name == "Ground Floor");
+
+            try
+            {
+                using (Transaction trans = new Transaction(doc, "Create Plan View"))
+                {
+                    trans.Start();
+
+                    //Create View
+                    ViewPlan vPlan = ViewPlan.Create(doc, viewFamily.Id, level.Id);
+                    vPlan.Name = "Our first plan!";
+
+                    trans.Commit();
+                }
+
+                return Result.Succeeded;
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                return Result.Failed;
+            }
+
+        }
+    }
+
+
+    //Added 4.2
+    [TransactionAttribute(TransactionMode.Manual)]
+    public class ViewFilter : IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //Get UIDocument
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+
+            //Get Document
+            Document doc = uidoc.Document;
+
+            //Create Filter
+            List<ElementId> cats = new List<ElementId>();
+            cats.Add(new ElementId(BuiltInCategory.OST_Sections));
+
+            ElementParameterFilter filter = new ElementParameterFilter(ParameterFilterRuleFactory.CreateContainsRule(new ElementId(BuiltInParameter.VIEW_NAME), "WIP", false));
+
+            try
+            {
+                using (Transaction trans = new Transaction(doc, "Apply Filter"))
+                {
+                    trans.Start();
+
+                    //Apply Filter
+                    ParameterFilterElement filterElement = ParameterFilterElement.Create(doc, "My first filter", cats, filter);
+                    doc.ActiveView.AddFilter(filterElement.Id);
+                    doc.ActiveView.SetFilterVisibility(filterElement.Id, false);
+
+                    trans.Commit();
+                }
+
+                return Result.Succeeded;
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                return Result.Failed;
+            }
+
+        }
+    }
+
+
+    //Added 4.3
+    [TransactionAttribute(TransactionMode.Manual)]
+    public class TagView : IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //Get UIDocument
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+
+            //Get Document
+            Document doc = uidoc.Document;
+
+            //Tag Parameters
+            TagMode tMode = TagMode.TM_ADDBY_CATEGORY;
+            TagOrientation tOrient = TagOrientation.Horizontal;
+
+            List<BuiltInCategory> cats = new List<BuiltInCategory>();
+            cats.Add(BuiltInCategory.OST_Windows);
+            cats.Add(BuiltInCategory.OST_Doors);
+
+            ElementMulticategoryFilter filter = new ElementMulticategoryFilter(cats);
+            IList<Element> tElements = new FilteredElementCollector(doc, doc.ActiveView.Id)
+                .WherePasses(filter)
+                .WhereElementIsNotElementType()
+                .ToElements();
+
+            try
+            {
+                using (Transaction trans = new Transaction(doc, "Tag Elements"))
+                {
+                    trans.Start();
+
+                    //Tag Elements
+                    foreach (Element ele in tElements)
+                    {
+                        Reference refe = new Reference(ele);
+                        LocationPoint loc = ele.Location as LocationPoint;
+                        XYZ point = loc.Point;
+                        IndependentTag tag = IndependentTag.Create(doc, doc.ActiveView.Id, refe, true, tMode, tOrient, point);
+
+                    }
+
+                    trans.Commit();
+                }
+
+                return Result.Succeeded;
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                return Result.Failed;
+            }
+
+        }
+    }
+
+    //Added 4.4
 }
