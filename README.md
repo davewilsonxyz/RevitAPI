@@ -1,5 +1,9 @@
 Just some notes while I'm learning the Revit API. 
 
+Studies
+
+Revit API C# - LinkedIn [Link](https://www.linkedin.com/learning/revit-creating-c-sharp-plugins/getting-started)
+
 
 ---
 
