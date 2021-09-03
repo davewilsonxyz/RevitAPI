@@ -4,7 +4,7 @@ Studies
 
 Revit API C# - LinkedIn [Link](https://www.linkedin.com/learning/revit-creating-c-sharp-plugins/getting-started)
 
-AU Revit API FAQs [Link](https://www.autodesk.com/autodesk-university/class/Just-FAQ-Revit-API-2015#presentation)
+AU Revit API Experts Round Table [Link](https://www.autodesk.com/autodesk-university/class/Revit-API-Expert-Roundtable-Open-House-Factory-Floor-2015#video)
 
 
 ---
