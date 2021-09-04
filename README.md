@@ -4,7 +4,7 @@ Studies
 
 Revit API C# - LinkedIn [Link](https://www.linkedin.com/learning/revit-creating-c-sharp-plugins/getting-started)
 
-
+Revit pure live [Link](https://youtu.be/mHfnsNOEbms)
 
 
 ---
