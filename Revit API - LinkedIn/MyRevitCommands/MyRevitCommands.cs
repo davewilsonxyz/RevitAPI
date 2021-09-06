@@ -404,7 +404,7 @@ namespace MyRevitCommands
                     Parameter param = ele.LookupParameter("Head Height");
                     InternalDefinition paramDef = param.Definition as InternalDefinition;
 
-                    TaskDialog.Show("Parameters", string.Format("{0} parameter of type {1} with biltinparameter {2}",
+                    TaskDialog.Show("Parameters", string.Format("{0} parameter of type {1} with builtinparameter {2}",
                         paramDef.Name,
                         paramDef.UnitType,
                         paramDef.BuiltInParameter));
@@ -1005,6 +1005,76 @@ namespace MyRevitCommands
                 return Result.Failed;
             }
 
+        }
+    }
+
+
+    //GetCoords Addin set this up all the way from A-Z _ Own file set up _Button on ribbon
+    [TransactionAttribute(TransactionMode.Manual)]
+    public class GetCoords : IExternalCommand
+    {
+        //This is the minimum required for a IExternalCommand
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //Get UI document
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+
+            //Get document(Added 2.1)
+            Document doc = uidoc.Document;
+
+            //Get project location and position
+            ProjectLocation projLoc = doc.ActiveProjectLocation;
+            ProjectPosition pos = projLoc.GetProjectPosition(XYZ.Zero);
+
+
+            //Get individual values
+            double EW = UnitUtils.ConvertFromInternalUnits(pos.EastWest, DisplayUnitType.DUT_MILLIMETERS);
+            double NS = UnitUtils.ConvertFromInternalUnits(pos.NorthSouth, DisplayUnitType.DUT_MILLIMETERS);
+            double Ele = UnitUtils.ConvertFromInternalUnits(pos.Elevation, DisplayUnitType.DUT_MILLIMETERS);
+            double Ang = UnitUtils.ConvertFromInternalUnits(pos.Angle, DisplayUnitType.DUT_DECIMAL_DEGREES);
+               
+            //Show the individual values to task dialog
+            TaskDialog.Show("Revit", "The easting is " + EW.ToString() + Environment.NewLine 
+                + "The northing is " + NS.ToString() + Environment.NewLine
+                + "The elevation is " + Ele.ToString() + Environment.NewLine
+                + "The angle is " + Ang.ToString());
+
+            //Get the family(ELEMENT) to set. 
+            string search_name = "GetCoords";
+            FilteredElementCollector collector = new FilteredElementCollector(doc).OfClass(typeof(Family));
+            Family family = collector.FirstOrDefault<Element>(e => e.Name.Equals(search_name)) as Family;
+            ElementId eleId = family.GetFamilySymbolIds().ElementAt(0);
+
+            Element CoordEle = doc.GetElement(eleId);
+
+            //get_Parameter(Guid) how do I get this?
+            Guid guid1 = CoordEle.LookupParameter("Easting").GUID;
+            Guid guid2 = CoordEle.LookupParameter("Northing").GUID;
+            Guid guid3 = CoordEle.LookupParameter("Elevation").GUID;
+            Guid guid4 = CoordEle.LookupParameter("Angle").GUID;
+
+            Parameter param1 = CoordEle.get_Parameter(guid1);
+            Parameter param2 = CoordEle.get_Parameter(guid2);
+            Parameter param3 = CoordEle.get_Parameter(guid3);
+            Parameter param4 = CoordEle.get_Parameter(guid4);
+
+            //Set the family - need a transaction
+            using (Transaction trans = new Transaction(doc, "Set Parameters"))
+            {
+                trans.Start();
+
+                //This updates the element in Revit
+                param1.Set(EW);
+                param2.Set(NS);
+                param3.Set(Ele);
+                param4.Set(Ang);
+
+                trans.Commit();
+            }
+
+            return Result.Succeeded;
+
+            /// What else could I get this tool to do?
         }
     }
 }

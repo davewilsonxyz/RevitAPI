@@ -190,7 +190,7 @@
 	<AddIn Type="Command">
 		<Name>MyRevitCommands</Name>
 		<Assembly>MyRevitCommands.dll</Assembly>
-		<AddInId>BB46D4C0-4293-482D-80CC-FA460DC00966</AddInId>
+		<AddInId>63B5FF2E-54AB-459D-94A3-2F2F55D95BBA</AddInId>
 		<FullClassName>MyRevitCommands.Sheets</FullClassName>
 		<Text>Sheets</Text>
 		<Description>Creates a sheet in the document</Description>
@@ -205,6 +205,17 @@
 		<FullClassName>MyRevitCommands.PlaceView</FullClassName>
 		<Text>PlaceView</Text>
 		<Description>Places a view on a sheet</Description>
+		<VendorId>DaveWilsonxyz</VendorId>
+		<VendorDescription>ComputationalDesigner</VendorDescription>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+	</AddIn>
+	<AddIn Type="Command">
+		<Name>MyRevitCommands</Name>
+		<Assembly>MyRevitCommands.dll</Assembly>
+		<AddInId>333B793C-AB56-4208-9C8C-19C4A9163A54</AddInId>
+		<FullClassName>MyRevitCommands.GetCoords</FullClassName>
+		<Text>GetCoords</Text>
+		<Description>Gets the revit coords</Description>
 		<VendorId>DaveWilsonxyz</VendorId>
 		<VendorDescription>ComputationalDesigner</VendorDescription>
 		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
